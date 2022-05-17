@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import React, {useContext, useState} from 'react';
 
-import {UserInfoContext} from '../../screens/setupscreens/InitialSetup';
+import {UserInfoContext} from '../../navigation/MainApp';
 import {Subheading, Title} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 import {Colors} from '../../Colors';

@@ -30,7 +30,7 @@ export default function Routes() {
 
   return (
     <NavigationContainer>
-      {user ? <InitialSetup /> : <AuthStack />}
+      {user ? <MainApp /> : <AuthStack />}
     </NavigationContainer>
   );
 }

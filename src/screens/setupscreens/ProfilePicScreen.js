@@ -2,7 +2,7 @@ import {View, Text, StatusBar, StyleSheet} from 'react-native';
 import React, {useState, createContext, useContext} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../../navigation/AuthProvider';
-import {UserInfoContext} from '../../screens/setupscreens/InitialSetup';
+import {UserInfoContext} from '../../navigation/MainApp';
 import {Avatar} from '../../components/Avatar';
 import BottomButton from '../../components/BottomButton';
 import storage from '@react-native-firebase/storage';

@@ -10,7 +10,7 @@ import {
 import BottomButton from '../../components/BottomButton';
 import {Searchbar} from 'react-native-paper';
 import {CitiesList} from '../../country-cities/world-major-cities.min.js';
-import {UserInfoContext} from '../../screens/setupscreens/InitialSetup';
+import {UserInfoContext} from '../../navigation/MainApp';
 import {Colors} from '../../Colors';
 
 export default function CityScreen({navigation}) {
