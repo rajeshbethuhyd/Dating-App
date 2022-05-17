@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "825796347513",
+    "project_id": "liebe-f9e7c",
+    "storage_bucket": "liebe-f9e7c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825796347513:android:24b702e839918c8823b6a8",
+        "android_client_info": {
+          "package_name": "com.liebedating"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825796347513-4bgt8ain0ioqnr9vu99ek779ab8f9758.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liebedating",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "825796347513-ko0o3jm00ujso3kviuvlm596n8eg6ln6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATUp_lxlUJzU8_BDk-bZ9zxauj1D_HvNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825796347513-ko0o3jm00ujso3kviuvlm596n8eg6ln6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
