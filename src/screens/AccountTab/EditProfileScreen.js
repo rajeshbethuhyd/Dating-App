@@ -121,6 +121,8 @@ export default function EditProfileScreen({navigation}) {
       })
       .then(() => {
         console.log('User updated!');
+        ToastAndroid.show('Changes Saved!', ToastAndroid.SHORT);
+        navigation.goBack();
       });
   };
 
