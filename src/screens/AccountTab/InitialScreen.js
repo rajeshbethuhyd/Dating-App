@@ -42,7 +42,7 @@ export default function InitialScreen({navigation}) {
           activeOpacity={0.6}
           underlayColor="#DDDDDD"
           onPress={() => {
-            navigation.navigate('ProfileScreen');
+            navigation.navigate('EditProfileScreen');
           }}>
           <Text style={styles.accountOption}>Edit Profile</Text>
         </TouchableHighlight>

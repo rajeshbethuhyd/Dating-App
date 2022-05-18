@@ -89,8 +89,7 @@ export default function BasicDetailsScreen({navigation}) {
       relationshipStatus === '' ||
       hereFor === '' ||
       interestedIn === '' ||
-      agePref === '' ||
-      cityCountry === ''
+      agePref === ''
     ) {
       return false;
     }
@@ -424,7 +423,7 @@ export default function BasicDetailsScreen({navigation}) {
           if (validateForm()) {
             navigation.navigate('ProfilePicScreen');
           } else {
-            alert('Please fiil in all the fields.');
+            alert('All the fields are required except city.');
           }
         }}
         label="CONTINUE"

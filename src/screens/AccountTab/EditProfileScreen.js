@@ -18,15 +18,15 @@ import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
 import BottomButton from '../../components/BottomButton';
 import {getMaxDate, formatDate} from '../../HelperFunctions/DateFunctions';
-import {Subheading} from 'react-native-paper';
+import {Subheading, Appbar} from 'react-native-paper';
 import SaveIcon from '../../components/SaveIcon';
 import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../../navigation/AuthProvider';
-export default function ProfileScreen({navigation}) {
+
+export default function EditProfileScreen({navigation}) {
   const {user} = useContext(AuthContext);
-  const {userData} = useContext(UserInfoContext);
-  console.log('userData from profile page');
-  console.log(userData);
+  const {userData, editCity, setEditCity, editCountry, setEditCountry} =
+    useContext(UserInfoContext);
 
   const [userDisplayName, setUserDisplayName] = useState(
     userData.userDisplayName,
@@ -41,7 +41,6 @@ export default function ProfileScreen({navigation}) {
   const [interestedIn, setInterestedIn] = useState(userData.interestedIn);
   const [ageRangeMin, setAgeRangeMin] = useState(userData.ageRangeMin);
   const [ageRangeMax, setAgeRangeMax] = useState(userData.ageRangeMax);
-  const [cityCountry, setCityCountry] = useState(userData.cityCountry);
   const [city, setCity] = useState(userData.city);
   const [country, setCountry] = useState(userData.country);
   const [aboutMe, setAboutMe] = useState(userData.aboutMe);
@@ -57,23 +56,96 @@ export default function ProfileScreen({navigation}) {
 
   const [openDateModal, setOpenDateModal] = useState(false);
 
+  const validateForm = () => {
+    if (
+      userDisplayName === '' ||
+      userDisplayName === undefined ||
+      dob === '' ||
+      dob === undefined ||
+      height === '' ||
+      height === undefined ||
+      gender === '' ||
+      gender === undefined ||
+      relationshipStatus === '' ||
+      relationshipStatus === undefined ||
+      hereFor === '' ||
+      hereFor === undefined
+    ) {
+      return false;
+    }
+    return true;
+  };
   useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <SaveIcon disabledProp={false} onPress={() => {}} />,
-    });
-  }, [navigation]);
+    if (editCity !== null) {
+      setCity(editCity);
+    }
+  }, [editCity]);
+  useEffect(() => {
+    if (editCountry !== null) {
+      setCountry(editCountry);
+    }
+  }, [editCountry]);
+
+  const handleSubmit = () => {
+    const result = validateForm();
+    if (result !== true) {
+      alert('Personal information cannot be empty');
+      return;
+    }
+
+    firestore()
+      .collection('Users')
+      .doc(user.uid)
+      .update({
+        userDisplayName: userDisplayName,
+        dob: dob,
+        height: height,
+        gender: gender,
+        relationshipStatus: relationshipStatus,
+        hereFor: hereFor,
+        interestedIn: interestedIn,
+        ageRangeMin: ageRangeMin,
+        ageRangeMax: ageRangeMax,
+        city: city,
+        country: country,
+        aboutMe: aboutMe,
+        highestDegree: highestDegree,
+        college: college,
+        job: job,
+        company: company,
+        smoking: smoking,
+        drinking: drinking,
+        eatingHabits: eatingHabits,
+        exercise: exercise,
+        wantKinds: wantKinds,
+      })
+      .then(() => {
+        console.log('User updated!');
+      });
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: Colors.white}}>
+      <Appbar.Header style={{backgroundColor: Colors.white}}>
+        <Appbar.BackAction
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+        <Appbar.Content title="Profile" />
+        <Appbar.Action icon="check" onPress={handleSubmit} />
+      </Appbar.Header>
       <ScrollView>
         <View style={styles.basicform}>
           <Subheading style={styles.subheadingstyles}>
-            Personal Information
+            Personal Information <Text style={{color: 'red'}}>*</Text>
           </Subheading>
           <View>
             <TextInput
               style={styles.input}
               placeholder="Enter Display Name"
               placeholderTextColor={Colors.placeholder}
+              maxLength={25}
               onChangeText={text => {
                 setUserDisplayName(text);
               }}
@@ -289,6 +361,9 @@ export default function ProfileScreen({navigation}) {
               value={hereFor}
             />
           </View>
+          <Subheading style={styles.subheadingstyles}>
+            Place of Living
+          </Subheading>
           <View>
             <TextInput
               style={styles.input}
@@ -296,9 +371,9 @@ export default function ProfileScreen({navigation}) {
               placeholder="City..."
               placeholderTextColor={Colors.placeholder}
               onPressIn={() => {
-                navigation.navigate('CityScreen');
+                navigation.navigate('EditCity');
               }}
-              defaultValue={cityCountry}
+              defaultValue={city}
             />
           </View>
           <Subheading style={styles.subheadingstyles}>
@@ -313,7 +388,6 @@ export default function ProfileScreen({navigation}) {
               maxLength={100}
               onChangeText={text => {
                 setAboutMe(text);
-                console.log('userDisplayName->' + userDisplayName);
               }}
               defaultValue={aboutMe}
             />

@@ -2,12 +2,12 @@ import React, {useContext} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Text, Pressable} from 'react-native';
 import InitialScreen from './AccountTab/InitialScreen';
-import ProfileScreen from './AccountTab/ProfileScreen';
-import CityScreen from './setupscreens/CityScreen';
+import EditProfileScreen from './AccountTab/EditProfileScreen';
 import {Colors} from '../Colors';
 
 import SaveIcon from '../components/SaveIcon';
 import ViewProfileScreen from './AccountTab/ViewProfileScreen';
+import EditCity from './AccountTab/EditCity';
 
 const AccountStack = createNativeStackNavigator();
 export default function AccountScreen({navigation}) {
@@ -30,17 +30,17 @@ export default function AccountScreen({navigation}) {
         }}
       />
       <AccountStack.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
+        name="EditProfileScreen"
+        component={EditProfileScreen}
         options={{
           animation: 'slide_from_right',
           headerTitle: 'Profile',
-          // headerRight: () => <SaveIcon disabledProp={true} />,
+          headerShown: false,
         }}
       />
       <AccountStack.Screen
-        name="CityScreen"
-        component={CityScreen}
+        name="EditCity"
+        component={EditCity}
         options={{
           presentation: 'modal',
           headerShown: false,

@@ -7,16 +7,16 @@ import {
   TouchableHighlight,
   Pressable,
 } from 'react-native';
-import BottomButton from '../../components/BottomButton';
+import BottomButton from '../../components/BottomButton.js';
 import {Searchbar} from 'react-native-paper';
 import {CitiesList} from '../../country-cities/world-major-cities.min.js';
-import {UserInfoContext} from '../../navigation/MainApp';
-import {Colors} from '../../Colors';
+import {Colors} from '../../Colors.js';
+import {UserInfoContext} from '../../navigation/MainApp.js';
 
-export default function CityScreen({navigation}) {
+export default function EditCity({navigation}) {
   const [input, setInput] = useState('');
   const [results, setResults] = useState([]);
-  const {city, setCity, country, setCountry, cityCountry, setCityCountry} =
+  const {editCity, setEditCity, editCountry, setEditCountry} =
     useContext(UserInfoContext);
   function fetchData(text) {
     var resultCities = CitiesList.filter(city => {
@@ -47,9 +47,9 @@ export default function CityScreen({navigation}) {
         renderItem={({item, index, separators}) => (
           <TouchableHighlight
             onPress={() => {
-              setCity(item.name);
-              setCountry(item.country);
-              setCityCountry(item.name + ', ' + item.country);
+              setEditCity(item.name);
+              setEditCountry(item.country);
+
               navigation.goBack();
             }}
             activeOpacity={0.6}
@@ -86,7 +86,6 @@ export default function CityScreen({navigation}) {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

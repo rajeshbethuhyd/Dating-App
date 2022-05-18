@@ -48,6 +48,9 @@ export default function MainApp() {
   const [exercise, setExercise] = useState(null);
   const [wantKinds, setWantKinds] = useState(null);
 
+  const [editCity, setEditCity] = useState(null);
+  const [editCountry, setEditCountry] = useState(null);
+
   useEffect(() => {
     firestore()
       .collection('Users')
@@ -75,7 +78,8 @@ export default function MainApp() {
     );
   } else if (isSetupFinished === true) {
     return (
-      <UserInfoContext.Provider value={{userData}}>
+      <UserInfoContext.Provider
+        value={{userData, editCity, setEditCity, editCountry, setEditCountry}}>
         <Tab.Navigator
           activeColor={Colors.white}
           barStyle={{backgroundColor: Colors.primary}}
