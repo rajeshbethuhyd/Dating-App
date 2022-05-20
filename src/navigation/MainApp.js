@@ -70,7 +70,6 @@ export default function MainApp() {
   }, []);
 
   if (isSetupFinished === null) {
-    console.log('NULL CASE TRIGGERED');
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator animating={true} color={Colors.primary} />
@@ -83,7 +82,7 @@ export default function MainApp() {
         <Tab.Navigator
           activeColor={Colors.white}
           barStyle={{backgroundColor: Colors.primary}}
-          initialRouteName="Account"
+          initialRouteName="HomeScreen"
           labeled={false}>
           <Tab.Screen
             name="HomeScreen"
