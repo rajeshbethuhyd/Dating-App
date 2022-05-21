@@ -28,30 +28,29 @@ export default function HomeScreen() {
   return (
     <View>
       <StatusBar backgroundColor={Colors.primary} />
-      <Appbar.Header style={{backgroundColor: Colors.white}}>
+      <Appbar.Header style={{backgroundColor: Colors.white, zIndex: 100}}>
         <Appbar.Content title="Discover" />
       </Appbar.Header>
-      <FlatList
-        ref={ref => {
-          setFlatListRef(ref);
-        }}
-        data={items}
-        renderItem={({item}) => <UserCardComponent name={item.name} />}
-        keyExtractor={item => item.id}
-        snapToAlignment="center"
-        decelerationRate={'fast'}
-        snapToInterval={Dimensions.get('window').height}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={styles.container}>
+        <FlatList
+          ref={ref => {
+            setFlatListRef(ref);
+          }}
+          data={items}
+          renderItem={({item}) => <UserCardComponent name={item.name} />}
+          keyExtractor={item => item.id}
+          snapToAlignment="center"
+          decelerationRate={'fast'}
+          snapToInterval={Dimensions.get('window').height}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: -StatusBar.currentHeight,
   },
 });
