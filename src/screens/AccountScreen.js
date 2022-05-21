@@ -17,7 +17,7 @@ export default function AccountScreen({navigation}) {
         name="InitialScreen"
         component={InitialScreen}
         options={{
-          headerTitle: 'My Account',
+          headerTitle: 'Account',
         }}
       />
       <AccountStack.Screen
