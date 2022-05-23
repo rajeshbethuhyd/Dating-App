@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   ImageBackground,
+  TouchableHighlight,
   Image,
   View,
   StatusBar,
@@ -11,7 +12,9 @@ import {
 import React from 'react';
 import {Colors} from '../Colors';
 import {Subheading} from 'react-native-paper';
-import IconButton from './IconButton';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import ActionButton from './ActionButton';
 
 export default function UserCardComponent(props) {
   return (
@@ -22,6 +25,9 @@ export default function UserCardComponent(props) {
           resizeMode="cover"
           style={styles.userCardImg}
         />
+        <Pressable style={styles.chatIcon}>
+          <MaterialIcons name="chat" color={Colors.white} size={33} />
+        </Pressable>
         <View style={styles.userCardInfo}>
           <View style={styles.userCardInfofirstrow}>
             <Subheading style={styles.userCardName}>Full Name</Subheading>
@@ -34,14 +40,17 @@ export default function UserCardComponent(props) {
           </View>
         </View>
         <View style={styles.actionButtons}>
-          <Pressable style={styles.saveBtn}>
-            <Text style={styles.saveBtnText}>SAVE</Text>
+          <Pressable style={styles.actionButton}>
+            <Text style={styles.ActionButtonText}>SAVE</Text>
           </Pressable>
-          <Pressable style={styles.saveBtn}>
-            <Text style={styles.saveBtnText}>VIEW</Text>
-          </Pressable>
-          <Pressable style={styles.saveBtn}>
-            <Text style={styles.saveBtnText}>LIKE</Text>
+          <ActionButton
+            iconName={false ? 'heart' : 'heart-outline'}
+            border={Colors.primary}
+            color={Colors.primary}
+            size={35}
+          />
+          <Pressable style={styles.actionButton}>
+            <Text style={styles.ActionButtonText}>VIEW</Text>
           </Pressable>
         </View>
       </View>
@@ -51,6 +60,7 @@ export default function UserCardComponent(props) {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.white,
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
     alignItems: 'center',
@@ -71,7 +81,19 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
   },
-  userCardInfo: {flex: 2, paddingHorizontal: 15},
+  chatIcon: {
+    position: 'absolute',
+    right: '5%',
+    bottom: '40%',
+    borderRadius: 30,
+    padding: 10,
+    backgroundColor: Colors.primary,
+  },
+  userCardInfo: {
+    flex: 2,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
   userCardInfofirstrow: {
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -84,7 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   userCardName: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '600',
     fontFamily: 'sans-serif-medium',
   },
@@ -96,16 +118,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
-  saveBtn: {
+  actionButton: {
     borderWidth: 2,
+    borderRadius: 25,
+    padding: 10,
     borderColor: Colors.thickTomato,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 26,
   },
-  saveBtnText: {
+  ActionButtonText: {
     color: Colors.thickTomato,
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontWeight: '600',
   },
 });

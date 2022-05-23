@@ -14,6 +14,7 @@ import HomeScreen from '../screens/HomeScreen';
 import AccountScreen from '../screens/AccountScreen';
 import firestore from '@react-native-firebase/firestore';
 import {ActivityIndicator} from 'react-native-paper';
+import HobbiesScreen from '../screens/HobbiesScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -80,10 +81,19 @@ export default function MainApp() {
       <UserInfoContext.Provider
         value={{userData, editCity, setEditCity, editCountry, setEditCountry}}>
         <Tab.Navigator
-          activeColor={Colors.white}
-          barStyle={{backgroundColor: Colors.primary}}
-          initialRouteName="HomeScreen"
+          activeColor={Colors.primary}
+          barStyle={{backgroundColor: Colors.white}}
+          initialRouteName="TestScreen"
           labeled={false}>
+          <Tab.Screen
+            name="HobbiesScreen"
+            component={HobbiesScreen}
+            options={{
+              tabBarIcon: ({color}) => (
+                <Icons name="settings" color={color} size={22} />
+              ),
+            }}
+          />
           <Tab.Screen
             name="HomeScreen"
             component={HomeScreen}

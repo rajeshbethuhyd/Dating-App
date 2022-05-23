@@ -5,7 +5,6 @@ import {Appbar} from 'react-native-paper';
 import {Colors} from '../Colors';
 
 export default function HomeScreen() {
-  const [flatListRef, setFlatListRef] = useState(null);
   const [items, setItems] = useState([
     {
       id: '1',
@@ -27,15 +26,12 @@ export default function HomeScreen() {
 
   return (
     <View>
-      <StatusBar backgroundColor={Colors.primary} />
+      <StatusBar barStyle="light-content" />
       <Appbar.Header style={{backgroundColor: Colors.white, zIndex: 100}}>
         <Appbar.Content title="Discover" />
       </Appbar.Header>
       <View style={styles.container}>
         <FlatList
-          ref={ref => {
-            setFlatListRef(ref);
-          }}
           data={items}
           renderItem={({item}) => <UserCardComponent name={item.name} />}
           keyExtractor={item => item.id}
