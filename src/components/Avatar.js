@@ -21,15 +21,6 @@ export const Avatar = props => {
   const close = () => setVisible(false);
   const open = () => setVisible(true);
 
-  //Code to get Profile Pic URL
-
-  // let imageRef = storage().ref('rajeshbethu.jpg');
-  // imageRef.getDownloadURL().then(url => {
-  //   console.log('MYURL');
-  //   console.log(url);
-  //   setUri(url);
-  // });
-
   const chooseImage = () => {
     ImagePicker.openPicker({
       width: 300,
@@ -74,7 +65,10 @@ export const Avatar = props => {
           {...props}
           source={uri ? {uri} : props.source}
         />
-        <View
+        <Icon
+          name="camera"
+          size={25}
+          color={Colors.white}
           style={{
             position: 'absolute',
             bottom: 10,
@@ -85,9 +79,8 @@ export const Avatar = props => {
             borderRadius: 30,
             paddingHorizontal: 10,
             paddingVertical: 8,
-          }}>
-          <Icon name="camera" size={25} color={Colors.white} />
-        </View>
+          }}
+        />
       </TouchableOpacity>
       <Modal
         isVisible={visible}

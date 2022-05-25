@@ -83,15 +83,23 @@ export default function BasicDetailsScreen({navigation}) {
   function validateForm() {
     if (
       userDisplayName === '' ||
+      userDisplayName === null ||
       dob === '' ||
+      dob === null ||
       height === '' ||
+      height === null ||
       gender === '' ||
+      gender === null ||
       relationshipStatus === '' ||
+      relationshipStatus === null ||
       hereFor === '' ||
+      hereFor === null ||
       interestedIn === '' ||
-      agePref === ''
+      interestedIn === null ||
+      agePref === '' ||
+      agePref === null
     ) {
-      return false;
+      // return false;
     }
     return true;
   }
@@ -114,7 +122,6 @@ export default function BasicDetailsScreen({navigation}) {
               placeholder="Enter Display Name"
               placeholderTextColor={Colors.placeholder}
               onChangeText={text => setUserDisplayName(text)}
-              onBlur={Keyboard.dismiss()}
             />
           </View>
           <View>
@@ -405,25 +412,15 @@ export default function BasicDetailsScreen({navigation}) {
               </View>
             </Modal>
           </View>
-          <View>
-            <TextInput
-              style={styles.input}
-              showSoftInputOnFocus={false}
-              placeholder="City..."
-              placeholderTextColor={Colors.placeholder}
-              onPressIn={() => navigation.navigate('CityScreen')}
-              value={cityCountry}
-            />
-          </View>
         </View>
       </ScrollView>
 
       <BottomButton
         onPress={() => {
           if (validateForm()) {
-            navigation.navigate('ProfilePicScreen');
+            navigation.navigate('CityScreen');
           } else {
-            alert('All the fields are required except city.');
+            alert('All the fields are required.');
           }
         }}
         label="CONTINUE"

@@ -14,7 +14,7 @@ import HomeScreen from '../screens/HomeScreen';
 import AccountScreen from '../screens/AccountScreen';
 import firestore from '@react-native-firebase/firestore';
 import {ActivityIndicator} from 'react-native-paper';
-import HobbiesScreen from '../screens/HobbiesScreen';
+import HobbiesScreen from '../screens/setupscreens/HobbiesScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -48,7 +48,7 @@ export default function MainApp() {
   const [eatingHabits, setEatingHabits] = useState(null);
   const [exercise, setExercise] = useState(null);
   const [wantKinds, setWantKinds] = useState(null);
-
+  const [hobbies, setHobbies] = useState([]);
   const [editCity, setEditCity] = useState(null);
   const [editCountry, setEditCountry] = useState(null);
 
@@ -142,8 +142,8 @@ export default function MainApp() {
           setCity,
           country,
           setCountry,
-          cityCountry,
-          setCityCountry,
+          hobbies,
+          setHobbies,
           aboutMe,
           setAboutMe,
           highestDegree,
@@ -202,14 +202,25 @@ export default function MainApp() {
               headerStyle: {backgroundColor: Colors.primary},
               headerShown: false,
               headerTintColor: Colors.white,
-              animation: 'slide_from_bottom',
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="HobbiesScreen"
+            component={HobbiesScreen}
+            options={{
+              headerTitle: 'Interests',
+              headerStyle: {backgroundColor: Colors.primary},
+              headerShown: true,
+              headerTintColor: Colors.white,
+              animation: 'slide_from_right',
             }}
           />
           <Stack.Screen
             name="ProfilePicScreen"
             component={ProfilePicScreen}
             options={{
-              headerTitle: 'Profile Picture',
+              headerTitle: 'Pictures',
               headerStyle: {backgroundColor: Colors.primary},
               headerShown: true,
               headerTintColor: Colors.white,

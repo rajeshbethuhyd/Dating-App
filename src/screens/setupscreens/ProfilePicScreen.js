@@ -1,4 +1,4 @@
-import {View, Text, StatusBar, StyleSheet} from 'react-native';
+import {View, Text, StatusBar, StyleSheet, Image} from 'react-native';
 import React, {useState, createContext, useContext} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../../navigation/AuthProvider';
@@ -7,6 +7,8 @@ import {Avatar} from '../../components/Avatar';
 import BottomButton from '../../components/BottomButton';
 import storage from '@react-native-firebase/storage';
 import {utils} from '@react-native-firebase/app';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Colors} from '../../Colors';
 
 export const ImageContext = createContext({});
 
@@ -26,6 +28,9 @@ export default ProfilePicScreen = () => {
   } = useContext(UserInfoContext);
   const {user, logout, setIsSetupFinished} = useContext(AuthContext);
   const [imgUploaded, setImgUploaded] = useState(false);
+  const [pic1Uploaded, setPic1Uploaded] = useState(false);
+  const [pic2Uploaded, setPic2Uploaded] = useState(false);
+  const [pic3Uploaded, setPic3Uploaded] = useState(false);
   const [uploadedImgPath, setUploadedImgPath] = useState(null);
   const onAvatarChange = imagePath => {
     setUploadedImgPath(imagePath);
@@ -112,6 +117,74 @@ export default ProfilePicScreen = () => {
         </ImageContext.Provider>
       </View>
       <View style={styles.content}>
+        <View style={styles.pic}>
+          {!pic1Uploaded && (
+            <Icon name="image-plus" size={35} style={{padding: '20%'}} />
+          )}
+          {pic1Uploaded && (
+            <Image
+              style={styles.picstyles}
+              source={require('../../assets/img/dinesh.jpg')}
+            />
+          )}
+          {pic1Uploaded && (
+            <Icon
+              style={styles.deletePicIcon}
+              name="close"
+              size={30}
+              color={Colors.white}
+              onPress={() => {
+                console.log('Close Icon Pressed');
+              }}
+            />
+          )}
+        </View>
+        <View style={styles.pic}>
+          {!pic2Uploaded && (
+            <Icon name="image-plus" size={35} style={{padding: '20%'}} />
+          )}
+          {pic2Uploaded && (
+            <Image
+              style={styles.picstyles}
+              source={require('../../assets/img/dinesh.jpg')}
+            />
+          )}
+          {pic2Uploaded && (
+            <Icon
+              style={styles.deletePicIcon}
+              name="close"
+              size={30}
+              color={Colors.white}
+              onPress={() => {
+                console.log('Close Icon Pressed');
+              }}
+            />
+          )}
+        </View>
+        <View style={styles.pic}>
+          {!pic3Uploaded && (
+            <Icon name="image-plus" size={35} style={{padding: '20%'}} />
+          )}
+          {pic3Uploaded && (
+            <Image
+              style={styles.picstyles}
+              source={require('../../assets/img/dinesh.jpg')}
+            />
+          )}
+          {pic3Uploaded && (
+            <Icon
+              style={styles.deletePicIcon}
+              name="close"
+              size={30}
+              color={Colors.white}
+              onPress={() => {
+                console.log('Close Icon Pressed');
+              }}
+            />
+          )}
+        </View>
+      </View>
+      <View style={styles.finishBtn}>
         <BottomButton label="FINISH" onPress={uploadData} />
       </View>
     </View>
@@ -129,6 +202,34 @@ const styles = StyleSheet.create({
     margin: 70,
   },
   content: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 10,
+    alignItems: 'flex-start',
+  },
+  pic: {
+    backgroundColor: Colors.ligthgrey2,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '40%',
+    margin: 5,
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  picstyles: {
+    resizeMode: 'cover',
+    height: '100%',
+    width: '100%',
+  },
+  deletePicIcon: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    backgroundColor: 'red',
+    borderRadius: 20,
+  },
+  finishBtn: {
     flex: 1,
     position: 'absolute',
     bottom: 0,
