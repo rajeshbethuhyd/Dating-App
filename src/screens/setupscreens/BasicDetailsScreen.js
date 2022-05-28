@@ -109,10 +109,18 @@ export default function BasicDetailsScreen({navigation}) {
       <StatusBar backgroundColor={Colors.primary} />
       <ScrollView>
         <Subheading
-          style={{paddingHorizontal: 20, paddingVertical: 15, fontSize: 18}}>
+          style={{
+            paddingHorizontal: 20,
+            paddingVertical: 15,
+            fontSize: 18,
+          }}>
           Hi, Let's setup your account.
         </Subheading>
-        <View style={{paddingHorizontal: 20, marginVertical: 10}}>
+        <View
+          style={{
+            paddingHorizontal: 20,
+            marginVertical: 10,
+          }}>
           <Text style={{fontSize: 15}}>* All fields are required.</Text>
         </View>
         <View style={styles.basicform}>

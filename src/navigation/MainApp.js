@@ -13,8 +13,10 @@ import Icons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../screens/HomeScreen';
 import AccountScreen from '../screens/AccountScreen';
 import firestore from '@react-native-firebase/firestore';
+import database from '@react-native-firebase/database';
 import {ActivityIndicator} from 'react-native-paper';
 import HobbiesScreen from '../screens/setupscreens/HobbiesScreen';
+import ZeroTolerance from '../screens/setupscreens/ZeroTolerance';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -53,21 +55,18 @@ export default function MainApp() {
   const [editCountry, setEditCountry] = useState(null);
 
   useEffect(() => {
-    firestore()
-      .collection('Users')
-      .doc(user.uid)
-      .get()
-      .then(Doc => {
-        if (Doc.exists) {
-          setUserData(Doc.data());
+    const subscriber = database()
+      .ref('/Users/' + user.uid)
+      .on('value', snapshot => {
+        if (snapshot !== undefined && snapshot.exists()) {
+          setUserData(snapshot.val());
           setIsSetupFinished(true);
-        } else if (!Doc.exists) {
+        } else {
           setIsSetupFinished(false);
         }
-      })
-      .catch(e => {
-        console.log('Error:' + e);
       });
+
+    return () => subscriber();
   }, []);
 
   if (isSetupFinished === null) {
@@ -79,21 +78,19 @@ export default function MainApp() {
   } else if (isSetupFinished === true) {
     return (
       <UserInfoContext.Provider
-        value={{userData, editCity, setEditCity, editCountry, setEditCountry}}>
+        value={{
+          userData,
+          setUserData,
+          editCity,
+          setEditCity,
+          editCountry,
+          setEditCountry,
+        }}>
         <Tab.Navigator
           activeColor={Colors.primary}
           barStyle={{backgroundColor: Colors.white}}
           initialRouteName="TestScreen"
           labeled={false}>
-          <Tab.Screen
-            name="HobbiesScreen"
-            component={HobbiesScreen}
-            options={{
-              tabBarIcon: ({color}) => (
-                <Icons name="settings" color={color} size={22} />
-              ),
-            }}
-          />
           <Tab.Screen
             name="HomeScreen"
             component={HomeScreen}
@@ -210,6 +207,17 @@ export default function MainApp() {
             component={HobbiesScreen}
             options={{
               headerTitle: 'Interests',
+              headerStyle: {backgroundColor: Colors.primary},
+              headerShown: true,
+              headerTintColor: Colors.white,
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="ZeroTolerance"
+            component={ZeroTolerance}
+            options={{
+              headerTitle: 'Zero Tolerance',
               headerStyle: {backgroundColor: Colors.primary},
               headerShown: true,
               headerTintColor: Colors.white,

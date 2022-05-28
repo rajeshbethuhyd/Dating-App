@@ -12,7 +12,6 @@ import {Chip, Divider, Headline, Subheading, Title} from 'react-native-paper';
 import {Colors} from '../../Colors';
 import MyDivider from '../../components/MyDivider';
 import BottomButton from '../../components/BottomButton';
-import {NavigationContainer} from '@react-navigation/native';
 
 export default function HobbiesScreen({navigation}) {
   const [selectedHobbies, setSelectedHobbies] = useState([]);
@@ -35,8 +34,9 @@ export default function HobbiesScreen({navigation}) {
   };
 
   const SelectedHobbies = () =>
-    selectedHobbies.map(value => (
+    selectedHobbies.map((value, index) => (
       <Chip
+        key={index}
         style={styles.hobby}
         mode="outlined"
         selected={isHobbySelected(value)}
@@ -758,7 +758,7 @@ export default function HobbiesScreen({navigation}) {
       <BottomButton
         label="CONTINUE"
         onPress={() => {
-          navigation.navigate('ProfilePicScreen');
+          navigation.navigate('ZeroTolerance');
         }}
       />
     </>

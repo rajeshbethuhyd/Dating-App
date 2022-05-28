@@ -21,16 +21,24 @@ import {getMaxDate, formatDate} from '../../HelperFunctions/DateFunctions';
 import {Subheading, Appbar} from 'react-native-paper';
 import SaveIcon from '../../components/SaveIcon';
 import firestore from '@react-native-firebase/firestore';
+import database from '@react-native-firebase/database';
 import {AuthContext} from '../../navigation/AuthProvider';
 
 export default function EditProfileScreen({navigation}) {
   const {user} = useContext(AuthContext);
-  const {userData, editCity, setEditCity, editCountry, setEditCountry} =
-    useContext(UserInfoContext);
+  const {
+    userData,
+    setUserData,
+    editCity,
+    setEditCity,
+    editCountry,
+    setEditCountry,
+  } = useContext(UserInfoContext);
 
   const [userDisplayName, setUserDisplayName] = useState(
     userData.userDisplayName,
   );
+
   const [dob, setDob] = useState(userData.dob);
   const [height, setHeight] = useState(userData.height);
   const [gender, setGender] = useState(userData.gender);
@@ -55,7 +63,6 @@ export default function EditProfileScreen({navigation}) {
   const [wantKinds, setWantKinds] = useState(userData.wantKinds);
 
   const [openDateModal, setOpenDateModal] = useState(false);
-
   const validateForm = () => {
     if (
       userDisplayName === '' ||
