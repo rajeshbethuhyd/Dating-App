@@ -6,35 +6,36 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Chip, Divider, Headline, Subheading, Title} from 'react-native-paper';
-
 import {Colors} from '../../Colors';
 import MyDivider from '../../components/MyDivider';
 import BottomButton from '../../components/BottomButton';
+import ProgressStepBar from '../../components/ProgressStepBar';
+
+import {UserInfoContext} from '../../navigation/MainApp';
 
 export default function HobbiesScreen({navigation}) {
-  const [selectedHobbies, setSelectedHobbies] = useState([]);
-
+  const {hobbies, setHobbies} = useContext(UserInfoContext);
   const toggleHobby = item => {
-    if (selectedHobbies.length == 10) {
-      if (!selectedHobbies.includes(item)) {
+    if (hobbies.length == 10) {
+      if (!hobbies.includes(item)) {
         ToastAndroid.show('Maximum limit 10 reached', ToastAndroid.LONG);
         return;
       }
     }
-    setSelectedHobbies(
-      selectedHobbies.includes(item)
-        ? selectedHobbies.filter(i => i !== item)
-        : [...selectedHobbies, item],
+    setHobbies(
+      hobbies.includes(item)
+        ? hobbies.filter(i => i !== item)
+        : [...hobbies, item],
     );
   };
   const isHobbySelected = value => {
-    return selectedHobbies.includes(value);
+    return hobbies.includes(value);
   };
 
   const SelectedHobbies = () =>
-    selectedHobbies.map((value, index) => (
+    hobbies.map((value, index) => (
       <Chip
         key={index}
         style={styles.hobby}
@@ -47,12 +48,15 @@ export default function HobbiesScreen({navigation}) {
 
   return (
     <>
+      <ProgressStepBar current={3} total={5} />
       <View style={styles.Container}>
-        <Title>Select Your Interests</Title>
+        <Title>
+          Select Your Interests <Subheading>(Upto 10)</Subheading>
+        </Title>
         <View style={styles.interestContainer}>
           <SelectedHobbies />
         </View>
-        {selectedHobbies.length > 0 && (
+        {hobbies.length > 0 && (
           <View style={{marginVertical: 10}}>
             <MyDivider />
           </View>
@@ -768,6 +772,7 @@ const styles = StyleSheet.create({
   Container: {
     flex: 1,
     padding: 15,
+    backgroundColor: Colors.white,
   },
   interestContainer: {
     flexDirection: 'row',

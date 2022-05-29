@@ -1,15 +1,24 @@
 import {View, ScrollView, StyleSheet, Text} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import BottomButton from '../../components/BottomButton';
-import {Subheading, TextInput, Title} from 'react-native-paper';
+import {Colors, Subheading, TextInput, Title} from 'react-native-paper';
 import RuleTextInput from '../../components/RuleTextInput';
+import ProgressStepBar from '../../components/ProgressStepBar';
+import {UserInfoContext} from '../../navigation/MainApp';
 
 export default function ZeroTolerance({navigation}) {
-  const [rule1, setRule1] = React.useState('');
-  const [rule2, setRule2] = React.useState('');
-  const [rule3, setRule3] = React.useState('');
-  const [rule4, setRule4] = React.useState('');
-  const [rule5, setRule5] = React.useState('');
+  const {
+    rule1,
+    setRule1,
+    rule2,
+    setRule2,
+    rule3,
+    setRule3,
+    rule4,
+    setRule4,
+    rule5,
+    setRule5,
+  } = useContext(UserInfoContext);
   const onchangetext = (text, rule) => {
     if (text.length >= 100) {
       alert('max length 100 reached');
@@ -31,25 +40,51 @@ export default function ZeroTolerance({navigation}) {
 
   return (
     <>
+      <ProgressStepBar current={4} total={5} />
       <ScrollView style={styles.container}>
         <Subheading style={{marginBottom: 15}}>
           Avoid wrong persons by mentioning whatever you will never tolerate in
           your partner or in general.
         </Subheading>
         <View style={styles.inputStyles}>
-          <RuleTextInput label="Rule 1" onChangeText={onchangetext} rule={1} />
+          <RuleTextInput
+            label="Rule 1"
+            onChangeText={onchangetext}
+            rule={1}
+            val={rule1}
+          />
         </View>
         <View style={styles.inputStyles}>
-          <RuleTextInput label="Rule 2" onChangeText={onchangetext} rule={2} />
+          <RuleTextInput
+            label="Rule 2"
+            onChangeText={onchangetext}
+            rule={2}
+            val={rule2}
+          />
         </View>
         <View style={styles.inputStyles}>
-          <RuleTextInput label="Rule 3" onChangeText={onchangetext} rule={3} />
+          <RuleTextInput
+            label="Rule 3"
+            onChangeText={onchangetext}
+            rule={3}
+            val={rule3}
+          />
         </View>
         <View style={styles.inputStyles}>
-          <RuleTextInput label="Rule 4" onChangeText={onchangetext} rule={4} />
+          <RuleTextInput
+            label="Rule 4"
+            onChangeText={onchangetext}
+            rule={4}
+            val={rule4}
+          />
         </View>
         <View style={[styles.inputStyles, {marginBottom: 35}]}>
-          <RuleTextInput label="Rule 5" onChangeText={onchangetext} rule={5} />
+          <RuleTextInput
+            label="Rule 5"
+            onChangeText={onchangetext}
+            rule={5}
+            val={rule5}
+          />
         </View>
       </ScrollView>
       <BottomButton
@@ -65,6 +100,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
+    backgroundColor: Colors.white,
   },
   inputStyles: {
     marginVertical: 5,

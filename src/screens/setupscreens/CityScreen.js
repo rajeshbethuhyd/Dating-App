@@ -14,6 +14,7 @@ import {Appbar, Searchbar} from 'react-native-paper';
 import {CitiesList} from '../../country-cities/world-major-cities.min.js';
 import {UserInfoContext} from '../../navigation/MainApp';
 import {Colors} from '../../Colors';
+import ProgressStepBar from '../../components/ProgressStepBar';
 
 export default function CityScreen({navigation}) {
   const [input, setInput] = useState('');
@@ -51,14 +52,15 @@ export default function CityScreen({navigation}) {
   return (
     <>
       <StatusBar barStyle="default" />
-      <Appbar.Header>
+      {/* <Appbar.Header>
         <Appbar.BackAction
           onPress={() => {
             navigation.goBack();
           }}
         />
         <Appbar.Content title="Your City" />
-      </Appbar.Header>
+      </Appbar.Header> */}
+      <ProgressStepBar current={2} total={5} />
       <View style={styles.container}>
         <Searchbar
           autoFocus={true}

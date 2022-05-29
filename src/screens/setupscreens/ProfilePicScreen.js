@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Image,
   TouchableHighlight,
+  ToastAndroid,
   TouchableOpacity,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -22,6 +23,7 @@ import storage from '@react-native-firebase/storage';
 import {utils} from '@react-native-firebase/app';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors} from '../../Colors';
+import ProgressStepBar from '../../components/ProgressStepBar';
 export const ImageContext = createContext({});
 
 export default ProfilePicScreen = () => {
@@ -37,6 +39,21 @@ export default ProfilePicScreen = () => {
     ageRangeMax,
     city,
     country,
+    aboutMe,
+    highestDegree,
+    college,
+    job,
+    company,
+    smoking,
+    drinking,
+    eatingHabits,
+    exercise,
+    hobbies,
+    rule1,
+    rule2,
+    rule3,
+    rule4,
+    rule5,
     setIsSetupFinished,
   } = useContext(UserInfoContext);
   const {user, logout} = useContext(AuthContext);
@@ -96,8 +113,12 @@ export default ProfilePicScreen = () => {
           setImgUploaded(true);
           setUploadedImgPath(image.path);
         } else {
-          if (otherPics.length < 3) {
-            otherPics.push(image.path);
+          if (pic1Uploaded === null) {
+            setPic1Uploaded(image.path);
+          } else if (pic2Uploaded === null) {
+            setPic2Uploaded(image.path);
+          } else if (pic3Uploaded === null) {
+            setPic3Uploaded(image.path);
           }
         }
       })
@@ -110,15 +131,24 @@ export default ProfilePicScreen = () => {
       alert('Please upload your profile picture!');
       return;
     }
-    const uploadResult = uploadPhoto();
-    if (uploadResult !== null) {
-      if (saveUserData()) {
+    if (uploadPhoto(uri, '1') !== null) {
+      if (pic1Uploaded !== null) {
+        uploadPhoto(pic1Uploaded, '2');
       }
+      if (pic2Uploaded !== null) {
+        uploadPhoto(pic2Uploaded, '3');
+      }
+      if (pic3Uploaded !== null) {
+        uploadPhoto(pic3Uploaded, '4');
+      }
+      saveUserData();
     }
   }
-  async function uploadPhoto() {
-    const reference = storage().ref('ProfilePictures/' + user.uid + '.jpg');
-    const task = reference.putFile(uploadedImgPath); //Change to uri
+  async function uploadPhoto(pic_uri, file_name) {
+    const reference = storage().ref(
+      'ProfilePictures/' + user.uid + '/' + file_name + '.jpg',
+    );
+    const task = reference.putFile(pic_uri); //Change to uri
     task.on('state_changed', taskSnapshot => {
       console.log(
         `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
@@ -129,8 +159,7 @@ export default ProfilePicScreen = () => {
     });
     try {
       await task;
-      const url = await reference.getDownloadURL();
-      return url;
+      return true;
     } catch (e) {
       console.log('ERROR: ' + e);
       return null;
@@ -152,16 +181,21 @@ export default ProfilePicScreen = () => {
         ageRangeMax: ageRangeMax,
         city: city,
         country: country,
-        aboutMe: '',
-        highestDegree: '',
-        college: '',
-        job: '',
-        company: '',
-        smoking: '',
-        drinking: '',
-        eatingHabits: '',
-        exercise: '',
-        wantKinds: '',
+        hobbies: hobbies,
+        rule1: rule1,
+        rule2: rule2,
+        rule3: rule3,
+        rule4: rule4,
+        rule5: rule5,
+        aboutMe: aboutMe,
+        highestDegree: highestDegree,
+        college: college,
+        job: job,
+        company: company,
+        smoking: smoking,
+        drinking: drinking,
+        eatingHabits: eatingHabits,
+        exercise: exercise,
       })
       .then(() => {
         console.log('User updated!');
@@ -170,12 +204,13 @@ export default ProfilePicScreen = () => {
       })
       .catch(e => {
         console.log('ERROR:' + e);
-        return null;
+        return false;
       });
   };
 
   return (
     <>
+      <ProgressStepBar current={5} total={5} />
       <View style={styles.Container}>
         <Title>Profile Picture</Title>
         <View style={styles.userRow}>

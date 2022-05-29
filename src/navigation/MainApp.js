@@ -1,5 +1,5 @@
 import React, {useState, useContext, createContext, useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {AuthContext} from './AuthProvider';
 import {View, Button, Text, Pressable} from 'react-native';
@@ -17,12 +17,16 @@ import database from '@react-native-firebase/database';
 import {ActivityIndicator} from 'react-native-paper';
 import HobbiesScreen from '../screens/setupscreens/HobbiesScreen';
 import ZeroTolerance from '../screens/setupscreens/ZeroTolerance';
+import HeaderSkipBtn from '../components/HeaderSkipBtn';
+import Temp from '../screens/Temp';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 export const UserInfoContext = createContext({});
 
 export default function MainApp() {
+  const navigation = useNavigation();
+
   const {user, logout} = useContext(AuthContext);
   const [userData, setUserData] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
@@ -37,7 +41,6 @@ export default function MainApp() {
   const [interestedIn, setInterestedIn] = useState(null);
   const [ageRangeMin, setAgeRangeMin] = useState(null);
   const [ageRangeMax, setAgeRangeMax] = useState(null);
-  const [cityCountry, setCityCountry] = useState(null);
   const [city, setCity] = useState(null);
   const [country, setCountry] = useState(null);
   const [aboutMe, setAboutMe] = useState(null);
@@ -49,10 +52,14 @@ export default function MainApp() {
   const [drinking, setDrinking] = useState(null);
   const [eatingHabits, setEatingHabits] = useState(null);
   const [exercise, setExercise] = useState(null);
-  const [wantKinds, setWantKinds] = useState(null);
   const [hobbies, setHobbies] = useState([]);
   const [editCity, setEditCity] = useState(null);
   const [editCountry, setEditCountry] = useState(null);
+  const [rule1, setRule1] = useState(null);
+  const [rule2, setRule2] = useState(null);
+  const [rule3, setRule3] = useState(null);
+  const [rule4, setRule4] = useState(null);
+  const [rule5, setRule5] = useState(null);
 
   useEffect(() => {
     const subscriber = database()
@@ -89,8 +96,17 @@ export default function MainApp() {
         <Tab.Navigator
           activeColor={Colors.primary}
           barStyle={{backgroundColor: Colors.white}}
-          initialRouteName="TestScreen"
+          initialRouteName="Temp"
           labeled={false}>
+          <Tab.Screen
+            name="Temp"
+            component={Temp}
+            options={{
+              tabBarIcon: ({color}) => (
+                <Icons name="settings" color={color} size={26} />
+              ),
+            }}
+          />
           <Tab.Screen
             name="HomeScreen"
             component={HomeScreen}
@@ -141,6 +157,16 @@ export default function MainApp() {
           setCountry,
           hobbies,
           setHobbies,
+          rule1,
+          setRule1,
+          rule2,
+          setRule2,
+          rule3,
+          setRule3,
+          rule4,
+          setRule4,
+          rule5,
+          setRule5,
           aboutMe,
           setAboutMe,
           highestDegree,
@@ -159,8 +185,6 @@ export default function MainApp() {
           setEatingHabits,
           exercise,
           setExercise,
-          wantKinds,
-          setWantKinds,
           isSetupFinished,
           setIsSetupFinished,
         }}>
@@ -169,7 +193,7 @@ export default function MainApp() {
             name="BasicDetailsScreen"
             component={BasicDetailsScreen}
             options={{
-              headerTitle: 'Basic Deatils',
+              headerTitle: 'Before You Begin',
               headerStyle: {
                 backgroundColor: Colors.primary,
               },
@@ -195,11 +219,11 @@ export default function MainApp() {
             name="CityScreen"
             component={CityScreen}
             options={{
-              headerTitle: 'Enter Your City',
+              headerTitle: 'Your City',
               headerStyle: {backgroundColor: Colors.primary},
-              headerShown: false,
               headerTintColor: Colors.white,
               animation: 'slide_from_right',
+              headerRight: () => <HeaderSkipBtn navigateTo="HobbiesScreen" />,
             }}
           />
           <Stack.Screen
@@ -211,6 +235,7 @@ export default function MainApp() {
               headerShown: true,
               headerTintColor: Colors.white,
               animation: 'slide_from_right',
+              headerRight: () => <HeaderSkipBtn navigateTo="ZeroTolerance" />,
             }}
           />
           <Stack.Screen
@@ -222,6 +247,9 @@ export default function MainApp() {
               headerShown: true,
               headerTintColor: Colors.white,
               animation: 'slide_from_right',
+              headerRight: () => (
+                <HeaderSkipBtn navigateTo="ProfilePicScreen" />
+              ),
             }}
           />
           <Stack.Screen

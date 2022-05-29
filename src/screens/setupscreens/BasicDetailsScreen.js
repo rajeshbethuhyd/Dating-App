@@ -21,6 +21,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import BottomButton from '../../components/BottomButton';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import ProgressStepBar from '../../components/ProgressStepBar';
 export default function BasicDetailsScreen({navigation}) {
   const {
     userDisplayName,
@@ -99,7 +100,7 @@ export default function BasicDetailsScreen({navigation}) {
       agePref === '' ||
       agePref === null
     ) {
-      // return false;
+      return false;
     }
     return true;
   }
@@ -107,6 +108,7 @@ export default function BasicDetailsScreen({navigation}) {
   return (
     <View style={{flex: 1, backgroundColor: Colors.white}}>
       <StatusBar backgroundColor={Colors.primary} />
+      <ProgressStepBar current={1} total={5} />
       <ScrollView>
         <Subheading
           style={{
