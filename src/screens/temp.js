@@ -8,9 +8,24 @@ export default function Temp() {
     getLocations();
   }, []);
 
-  const getLocations = () => {
+  const getLocations = async () => {
     const geoFireRef = new GeoFire(database().ref('/geoData/'));
-    geoFireRef.set('test', [12.492379, 78.516338]);
+    const my_curr_location = await geoFireRef.get('test');
+    const geoQuery = geoFireRef.query({
+      center: my_curr_location,
+      radius: 100,
+    });
+    geoQuery.on('key_entered', (key, location, distance) => {
+      console.log(
+        'user ' +
+          key +
+          ' is at ' +
+          location +
+          ' and is ' +
+          distance +
+          ' away from the center',
+      );
+    });
   };
   return (
     <View>
