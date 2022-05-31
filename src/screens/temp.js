@@ -2,9 +2,11 @@ import {View, Text} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import database from '@react-native-firebase/database';
 import {GeoFire} from 'geofire';
+import Temp2 from './AccountTab/Temp2';
 
 export default function Temp() {
   useEffect(() => {
+    // Temp2();
     getLocations();
   }, []);
 
