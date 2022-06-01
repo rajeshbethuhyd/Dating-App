@@ -96,17 +96,8 @@ export default function MainApp() {
         <Tab.Navigator
           activeColor={Colors.primary}
           barStyle={{backgroundColor: Colors.white}}
-          initialRouteName="Temp"
+          initialRouteName="Account"
           labeled={false}>
-          <Tab.Screen
-            name="Temp"
-            component={Temp}
-            options={{
-              tabBarIcon: ({color}) => (
-                <Icons name="settings" color={color} size={26} />
-              ),
-            }}
-          />
           <Tab.Screen
             name="HomeScreen"
             component={HomeScreen}

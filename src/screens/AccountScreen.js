@@ -8,6 +8,7 @@ import {Colors} from '../Colors';
 import SaveIcon from '../components/SaveIcon';
 import ViewProfileScreen from './AccountTab/ViewProfileScreen';
 import EditCity from './AccountTab/EditCity';
+import SettingsScreen from './AccountTab/SettingsScreen';
 
 const AccountStack = createNativeStackNavigator();
 export default function AccountScreen({navigation}) {
@@ -36,6 +37,14 @@ export default function AccountScreen({navigation}) {
           animation: 'slide_from_right',
           headerTitle: 'Profile',
           headerShown: false,
+        }}
+      />
+      <AccountStack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{
+          animation: 'slide_from_right',
+          headerTitle: 'Settings',
         }}
       />
       <AccountStack.Screen

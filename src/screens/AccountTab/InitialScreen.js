@@ -5,47 +5,42 @@ import {
   ScrollView,
   TouchableHighlight,
   StatusBar,
+  Pressable,
 } from 'react-native';
 import React, {useContext} from 'react';
 import {Avatar} from '../../components/Avatar';
-import {Title} from 'react-native-paper';
+import {Title, Switch} from 'react-native-paper';
 import {AuthContext} from '../../navigation/AuthProvider';
 import {Colors} from '../../Colors';
+import MyDivider from '../../components/MyDivider';
 
 export default function InitialScreen({navigation}) {
   const {user, dob, logout} = useContext(AuthContext);
+  const [invisible, setInvisible] = React.useState(false);
+  const switchInvisible = () => setInvisible(!invisible);
+
   const onAvatarChange = image => {
     console.log(image);
-    // upload image to server here
   };
   return (
     <ScrollView style={styles.scroll}>
       <StatusBar backgroundColor={Colors.primary} />
-      <View style={styles.userRow}>
+      {/* <View style={styles.userRow}>
         <Avatar
           onChange={onAvatarChange}
           source={require('../../media/avatar.png')}
         />
-      </View>
+      </View> */}
       <View style={styles.content}>
-        <TouchableHighlight
+        <Pressable
+          android_ripple={{color: Colors.ligthgrey}}
           style={styles.accountOptions}
-          activeOpacity={0.6}
-          underlayColor="#DDDDDD"
           onPress={() => {
             navigation.navigate('ViewProfileScreen');
           }}>
-          <Text style={styles.accountOption}>View Profile</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.accountOptions}
-          activeOpacity={0.6}
-          underlayColor="#DDDDDD"
-          onPress={() => {
-            navigation.navigate('EditProfileScreen');
-          }}>
-          <Text style={styles.accountOption}>Edit Profile</Text>
-        </TouchableHighlight>
+          <Text style={styles.accountOption}>Profile</Text>
+        </Pressable>
+
         <TouchableHighlight
           style={styles.accountOptions}
           activeOpacity={0.6}
@@ -53,13 +48,20 @@ export default function InitialScreen({navigation}) {
           onPress={() => {}}>
           <Text style={styles.accountOption}>Dating Preferences</Text>
         </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.accountOptions}
-          activeOpacity={0.6}
-          underlayColor="#DDDDDD"
-          onPress={() => {}}>
-          <Text style={styles.accountOption}>Settings</Text>
-        </TouchableHighlight>
+        <View style={{marginVertical: 8}}>
+          <MyDivider />
+        </View>
+        <View style={styles.accountOptions}>
+          <Text style={styles.accountOption}>Invisible Mode</Text>
+          <Switch
+            value={invisible}
+            onValueChange={switchInvisible}
+            color={Colors.primary}
+          />
+        </View>
+        <View style={{marginVertical: 8}}>
+          <MyDivider />
+        </View>
         <TouchableHighlight
           style={styles.accountOptions}
           activeOpacity={0.6}
@@ -68,12 +70,6 @@ export default function InitialScreen({navigation}) {
             logout();
           }}>
           <Text style={styles.accountOption}>Logout</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.accountOptions}
-          activeOpacity={0.6}
-          onPress={() => {}}>
-          <Text style={styles.accountOption}>Deactivate My Account</Text>
         </TouchableHighlight>
       </View>
     </ScrollView>
@@ -90,10 +86,12 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    padding: 20,
   },
   accountOptions: {
     paddingVertical: 15,
-    padding: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   accountOption: {
     fontSize: 16,
