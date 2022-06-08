@@ -108,7 +108,7 @@ export default function BasicDetailsScreen({navigation}) {
   return (
     <View style={{flex: 1, backgroundColor: Colors.white}}>
       <StatusBar backgroundColor={Colors.primary} />
-      <ProgressStepBar current={1} total={5} />
+      <ProgressStepBar current={1} total={4} />
       <ScrollView>
         <Subheading
           style={{

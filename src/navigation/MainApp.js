@@ -16,7 +16,6 @@ import firestore from '@react-native-firebase/firestore';
 import database from '@react-native-firebase/database';
 import {ActivityIndicator} from 'react-native-paper';
 import HobbiesScreen from '../screens/setupscreens/HobbiesScreen';
-import ZeroTolerance from '../screens/setupscreens/ZeroTolerance';
 import HeaderSkipBtn from '../components/HeaderSkipBtn';
 import TestScreen from '../screens/TestScreen';
 
@@ -235,23 +234,12 @@ export default function MainApp() {
               headerShown: true,
               headerTintColor: Colors.white,
               animation: 'slide_from_right',
-              headerRight: () => <HeaderSkipBtn navigateTo="ZeroTolerance" />,
-            }}
-          />
-          <Stack.Screen
-            name="ZeroTolerance"
-            component={ZeroTolerance}
-            options={{
-              headerTitle: 'Zero Tolerance',
-              headerStyle: {backgroundColor: Colors.primary},
-              headerShown: true,
-              headerTintColor: Colors.white,
-              animation: 'slide_from_right',
               headerRight: () => (
                 <HeaderSkipBtn navigateTo="ProfilePicScreen" />
               ),
             }}
           />
+
           <Stack.Screen
             name="ProfilePicScreen"
             component={ProfilePicScreen}

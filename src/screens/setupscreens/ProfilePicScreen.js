@@ -210,7 +210,7 @@ export default ProfilePicScreen = () => {
 
   return (
     <>
-      <ProgressStepBar current={5} total={5} />
+      <ProgressStepBar current={4} total={4} />
       <View style={styles.Container}>
         <Title>Profile Picture</Title>
         <View style={styles.userRow}>

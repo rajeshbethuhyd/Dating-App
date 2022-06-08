@@ -60,7 +60,7 @@ export default function CityScreen({navigation}) {
         />
         <Appbar.Content title="Your City" />
       </Appbar.Header> */}
-      <ProgressStepBar current={2} total={5} />
+      <ProgressStepBar current={2} total={4} />
       <View style={styles.container}>
         <Searchbar
           autoFocus={true}

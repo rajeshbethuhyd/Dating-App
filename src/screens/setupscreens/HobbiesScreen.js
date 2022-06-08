@@ -34,33 +34,14 @@ export default function HobbiesScreen({navigation}) {
     return hobbies.includes(value);
   };
 
-  const SelectedHobbies = () =>
-    hobbies.map((value, index) => (
-      <Chip
-        key={index}
-        style={styles.hobby}
-        mode="outlined"
-        selected={isHobbySelected(value)}
-        selectedColor={Colors.primary}>
-        {value}
-      </Chip>
-    ));
-
   return (
     <>
-      <ProgressStepBar current={3} total={5} />
+      <ProgressStepBar current={3} total={4} />
       <View style={styles.Container}>
         <Title>
           Select Your Interests <Subheading>(Upto 10)</Subheading>
         </Title>
-        <View style={styles.interestContainer}>
-          <SelectedHobbies />
-        </View>
-        {hobbies.length > 0 && (
-          <View style={{marginVertical: 10}}>
-            <MyDivider />
-          </View>
-        )}
+
         <ScrollView>
           <View style={styles.interestContainer}>
             <Chip
@@ -762,7 +743,7 @@ export default function HobbiesScreen({navigation}) {
       <BottomButton
         label="CONTINUE"
         onPress={() => {
-          navigation.navigate('ZeroTolerance');
+          navigation.navigate('ProfilePicScreen');
         }}
       />
     </>
