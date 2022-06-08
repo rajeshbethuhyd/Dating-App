@@ -18,7 +18,7 @@ import {ActivityIndicator} from 'react-native-paper';
 import HobbiesScreen from '../screens/setupscreens/HobbiesScreen';
 import ZeroTolerance from '../screens/setupscreens/ZeroTolerance';
 import HeaderSkipBtn from '../components/HeaderSkipBtn';
-import Temp from '../screens/Temp';
+import TestScreen from '../screens/TestScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -96,8 +96,17 @@ export default function MainApp() {
         <Tab.Navigator
           activeColor={Colors.primary}
           barStyle={{backgroundColor: Colors.white}}
-          initialRouteName="Account"
+          initialRouteName="TestScreen"
           labeled={false}>
+          <Tab.Screen
+            name="TestScreen"
+            component={TestScreen}
+            options={{
+              tabBarIcon: ({color}) => (
+                <Icons name="home" color={color} size={26} />
+              ),
+            }}
+          />
           <Tab.Screen
             name="HomeScreen"
             component={HomeScreen}
