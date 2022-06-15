@@ -16,7 +16,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ActionButton from './ActionButton';
 
-export default function UserCardComponent(props) {
+export default function UserCardComponent({userInfo}) {
+  console.log('PROPS');
+  console.log(userInfo.key);
   return (
     <View style={styles.container}>
       <View style={styles.CardSection}>
@@ -30,13 +32,14 @@ export default function UserCardComponent(props) {
         </Pressable>
         <View style={styles.userCardInfo}>
           <View style={styles.userCardInfofirstrow}>
-            <Subheading style={styles.userCardName}>Full Name</Subheading>
+            <Subheading style={styles.userCardName}>{userInfo.key}</Subheading>
             <Subheading style={[styles.userCardName, styles.userCardAgeGen]}>
               M, 25
             </Subheading>
           </View>
           <View style={styles.userCardInfosecondrow}>
             <Subheading>Looking For FriendShip</Subheading>
+            <Subheading>{userInfo.distance} kms away</Subheading>
           </View>
         </View>
         <View style={styles.actionButtons}>
@@ -103,7 +106,9 @@ const styles = StyleSheet.create({
   },
   userCardInfosecondrow: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   userCardName: {
     fontSize: 20,

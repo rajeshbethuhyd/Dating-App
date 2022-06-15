@@ -23,6 +23,7 @@ import storage from '@react-native-firebase/storage';
 import {utils} from '@react-native-firebase/app';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors} from '../../Colors';
+import {GeoFire} from 'geofire';
 import ProgressStepBar from '../../components/ProgressStepBar';
 export const ImageContext = createContext({});
 
@@ -49,12 +50,11 @@ export default ProfilePicScreen = () => {
     eatingHabits,
     exercise,
     hobbies,
-    rule1,
-    rule2,
-    rule3,
-    rule4,
-    rule5,
+    userData,
+    setUserData,
     setIsSetupFinished,
+    location,
+    setLocation,
   } = useContext(UserInfoContext);
   const {user, logout} = useContext(AuthContext);
   const [imgUploaded, setImgUploaded] = useState(false);
@@ -66,6 +66,7 @@ export default ProfilePicScreen = () => {
   const [uri, setUri] = useState(null);
   const [visible, setVisible] = useState(false);
   const [isProfilePic, setIsProfilePic] = useState(true);
+  var profilePicUrl = null;
 
   const close = () => setVisible(false);
   const open = () => setVisible(true);
@@ -126,21 +127,16 @@ export default ProfilePicScreen = () => {
       .finally(close);
   };
 
-  function uploadData() {
+  async function uploadData() {
     if (!imgUploaded) {
       alert('Please upload your profile picture!');
       return;
     }
-    if (uploadPhoto(uri, '1') !== null) {
-      if (pic1Uploaded !== null) {
-        uploadPhoto(pic1Uploaded, '2');
-      }
-      if (pic2Uploaded !== null) {
-        uploadPhoto(pic2Uploaded, '3');
-      }
-      if (pic3Uploaded !== null) {
-        uploadPhoto(pic3Uploaded, '4');
-      }
+    const downloadUrl = await uploadPhoto(uri, '1');
+    if (downloadUrl !== null) {
+      console.log('downloadUrl');
+      console.log(downloadUrl);
+      profilePicUrl = downloadUrl;
       saveUserData();
     }
   }
@@ -159,7 +155,8 @@ export default ProfilePicScreen = () => {
     });
     try {
       await task;
-      return true;
+      let downloadUrl = await reference.getDownloadURL();
+      return downloadUrl;
     } catch (e) {
       console.log('ERROR: ' + e);
       return null;
@@ -171,6 +168,7 @@ export default ProfilePicScreen = () => {
       .ref('/Users/' + user.uid)
       .set({
         userDisplayName: userDisplayName,
+        profilePicUrl: profilePicUrl,
         dob: dob,
         height: height,
         gender: gender,
@@ -182,11 +180,6 @@ export default ProfilePicScreen = () => {
         city: city,
         country: country,
         hobbies: hobbies,
-        rule1: rule1,
-        rule2: rule2,
-        rule3: rule3,
-        rule4: rule4,
-        rule5: rule5,
         aboutMe: aboutMe,
         highestDegree: highestDegree,
         college: college,
@@ -196,8 +189,20 @@ export default ProfilePicScreen = () => {
         drinking: drinking,
         eatingHabits: eatingHabits,
         exercise: exercise,
+        location: location,
       })
       .then(() => {
+        hobbies.map(val => {
+          database()
+            .ref('/Interests/' + val)
+            .push(user.uid)
+            .then(() => console.log('Data updated.'));
+        });
+        if (location !== null) {
+          const geoFireRef = new GeoFire(database().ref('/geoData/'));
+          geoFireRef.set(user.uid, [location.latitude, location.longitude]);
+        }
+
         console.log('User updated!');
         setIsSetupFinished(true);
         return true;

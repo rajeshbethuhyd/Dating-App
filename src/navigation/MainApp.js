@@ -9,7 +9,7 @@ import CityScreen from '../screens/setupscreens/CityScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfilePicScreen from '../screens/setupscreens/ProfilePicScreen';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import Icons from 'react-native-vector-icons/Ionicons';
+import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HomeScreen from '../screens/HomeScreen';
 import AccountScreen from '../screens/AccountScreen';
 import firestore from '@react-native-firebase/firestore';
@@ -18,6 +18,7 @@ import {ActivityIndicator} from 'react-native-paper';
 import HobbiesScreen from '../screens/setupscreens/HobbiesScreen';
 import HeaderSkipBtn from '../components/HeaderSkipBtn';
 import TestScreen from '../screens/TestScreen';
+import LocationTest from '../screens/LocationTest';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -54,13 +55,13 @@ export default function MainApp() {
   const [hobbies, setHobbies] = useState([]);
   const [editCity, setEditCity] = useState(null);
   const [editCountry, setEditCountry] = useState(null);
-  const [rule1, setRule1] = useState(null);
-  const [rule2, setRule2] = useState(null);
-  const [rule3, setRule3] = useState(null);
-  const [rule4, setRule4] = useState(null);
-  const [rule5, setRule5] = useState(null);
+  const [location, setLocation] = useState(null);
 
   useEffect(() => {
+    /**
+     * Check for internet before making DB request
+     */
+
     const subscriber = database()
       .ref('/Users/' + user.uid)
       .on('value', snapshot => {
@@ -95,14 +96,13 @@ export default function MainApp() {
         <Tab.Navigator
           activeColor={Colors.primary}
           barStyle={{backgroundColor: Colors.white}}
-          initialRouteName="TestScreen"
           labeled={false}>
           <Tab.Screen
-            name="TestScreen"
-            component={TestScreen}
+            name="LocationTest"
+            component={LocationTest}
             options={{
               tabBarIcon: ({color}) => (
-                <Icons name="home" color={color} size={26} />
+                <Icons name="cog" color={color} size={26} />
               ),
             }}
           />
@@ -121,7 +121,7 @@ export default function MainApp() {
             options={{
               tabBarLabel: 'My Account',
               tabBarIcon: ({color}) => (
-                <Icons name="person" color={color} size={26} />
+                <Icons name="account" color={color} size={26} />
               ),
             }}
           />
@@ -156,16 +156,6 @@ export default function MainApp() {
           setCountry,
           hobbies,
           setHobbies,
-          rule1,
-          setRule1,
-          rule2,
-          setRule2,
-          rule3,
-          setRule3,
-          rule4,
-          setRule4,
-          rule5,
-          setRule5,
           aboutMe,
           setAboutMe,
           highestDegree,
@@ -186,6 +176,10 @@ export default function MainApp() {
           setExercise,
           isSetupFinished,
           setIsSetupFinished,
+          userData,
+          setUserData,
+          location,
+          setLocation,
         }}>
         <Stack.Navigator screenOptions={{headerShown: true}}>
           <Stack.Screen

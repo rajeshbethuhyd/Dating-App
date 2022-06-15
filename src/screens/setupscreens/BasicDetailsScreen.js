@@ -9,8 +9,8 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
-
+import React, {useContext, useState, useEffect} from 'react';
+import {GeoFire} from 'geofire';
 import {UserInfoContext} from '../../navigation/MainApp';
 import {Subheading, Title} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
@@ -20,8 +20,11 @@ import RNPickerSelect from 'react-native-picker-select';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import BottomButton from '../../components/BottomButton';
 import auth from '@react-native-firebase/auth';
+import {AuthContext} from '../../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 import ProgressStepBar from '../../components/ProgressStepBar';
+import {GetLocationCoords} from '../../HelperFunctions/GetLocationCoords';
+
 export default function BasicDetailsScreen({navigation}) {
   const {
     userDisplayName,
@@ -48,8 +51,10 @@ export default function BasicDetailsScreen({navigation}) {
     setCountry,
     cityCountry,
     setCityCountry,
+    location,
+    setLocation,
   } = useContext(UserInfoContext);
-
+  const {user, logout} = useContext(AuthContext);
   const [openDateModal, setOpenDateModal] = useState(false);
   const [openAgeModal, setOpenAgeModal] = useState(false);
   const [minAgePref, setMinAgePref] = useState(18);
@@ -57,6 +62,13 @@ export default function BasicDetailsScreen({navigation}) {
   const [agePref, setAgePref] = useState();
   const [minTempAgePref, setMinTempAgePref] = useState(minAgePref);
   const [maxTempAgePref, setMaxTempAgePref] = useState(maxAgePref);
+
+  useEffect(() => {
+    GetLocation();
+  }, []);
+  const GetLocation = async () => {
+    setLocation(await GetLocationCoords());
+  };
 
   function getMaxDate() {
     var d = new Date(),
@@ -82,6 +94,9 @@ export default function BasicDetailsScreen({navigation}) {
   }
 
   function validateForm() {
+    if (location === null) {
+      GetLocation();
+    }
     if (
       userDisplayName === '' ||
       userDisplayName === null ||
@@ -116,7 +131,7 @@ export default function BasicDetailsScreen({navigation}) {
             paddingVertical: 15,
             fontSize: 18,
           }}>
-          Hi, Let's setup your account.
+          Hi, Let's setup your account.{user.uid}
         </Subheading>
         <View
           style={{
