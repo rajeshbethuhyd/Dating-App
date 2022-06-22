@@ -134,8 +134,6 @@ export default ProfilePicScreen = () => {
     }
     const downloadUrl = await uploadPhoto(uri, '1');
     if (downloadUrl !== null) {
-      console.log('downloadUrl');
-      console.log(downloadUrl);
       profilePicUrl = downloadUrl;
       saveUserData();
     }

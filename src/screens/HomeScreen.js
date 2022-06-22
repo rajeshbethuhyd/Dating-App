@@ -13,18 +13,41 @@ import {Appbar} from 'react-native-paper';
 import database from '@react-native-firebase/database';
 import {Colors} from '../Colors';
 import {GeoFire} from 'geofire';
+import GetUserInfo from '../HelperFunctions/GetUserInfo';
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   const {user} = useContext(AuthContext);
   const [allUserList, setAllUserList] = useState([]);
+  const [offset, setOffset] = useState(0);
   const [finalUserList, setFinalUserList] = useState([]);
   const [tempUserList, setTempUserList] = useState([]);
-  var totalUserCount = 0;
-  var currentUser = 0;
+  const [loadingSentLikes, setLoadingSentLikes] = useState(true);
+  const [sentLikes, setSentLikes] = useState([]);
+
   var userList = [];
   useEffect(() => {
     getUsersList();
   }, []);
+
+  useEffect(() => {
+    const onValueChange = database()
+      .ref(`/SentLikes/${user.uid}`)
+      .on('value', snapshot => {
+        console.log('User data: ', snapshot.val());
+        setSentLikes(snapshot.val());
+        setLoadingSentLikes(false);
+      });
+
+    // Stop listening for updates when no longer required
+    return () =>
+      database().ref(`/SentLikes/${user.uid}`).off('value', onValueChange);
+  }, []);
+
+  useEffect(() => {
+    if (offset == 0) {
+      loadData();
+    }
+  }, [allUserList]);
 
   const getUsersList = async () => {
     const geoFireRef = new GeoFire(database().ref('/geoData/'));
@@ -45,58 +68,25 @@ export default function HomeScreen() {
       userList.push({key, distance});
     }
   };
-  const [items, setItems] = useState([
-    {
-      id: '1',
-      name: 'View 1',
-    },
-    {
-      id: '2',
-      name: 'View 2',
-    },
-    {
-      id: '3',
-      name: 'View 3',
-    },
-    {
-      id: '4',
-      name: 'View 4',
-    },
-    {
-      id: '5',
-      name: 'View 5',
-    },
-    {
-      id: '6',
-      name: 'View 6',
-    },
-    {
-      id: '7',
-      name: 'View 7',
-    },
-    {
-      id: '8',
-      name: 'View 8',
-    },
-    {
-      id: '9',
-      name: 'View 9',
-    },
-    {
-      id: '10',
-      name: 'View 10',
-    },
-    {
-      id: '11',
-      name: 'View 11',
-    },
-  ]);
 
-  const loadData = () => {};
-  if (allUserList.length == 0) {
+  function loadData() {
+    if (allUserList.length === 0) {
+      return;
+    }
+    const res = allUserList.slice(offset * 2, (offset + 1) * 2);
+    GetUserInfo(res)
+      .then(UserInfoArray => {
+        const merged = [...finalUserList, ...UserInfoArray];
+        setOffset(offset + 1);
+        setFinalUserList(merged);
+      })
+      .catch(e => {
+        console.log('Error: ' + e);
+      });
+  }
+  if (finalUserList.length == 0) {
     return <Text>Loading</Text>;
   } else {
-    totalUserCount = allUserList.length;
     return (
       <View>
         <StatusBar barStyle="light-content" />
@@ -105,9 +95,15 @@ export default function HomeScreen() {
         </Appbar.Header>
         <View style={styles.container}>
           <FlatList
-            data={allUserList}
-            renderItem={({item}) => <UserCardComponent userInfo={item} />}
-            onEndReachedThreshold={5}
+            data={finalUserList}
+            renderItem={({item}) => (
+              <UserCardComponent
+                loadingSentLikes={loadingSentLikes}
+                userInfo={item}
+                navigation={navigation}
+              />
+            )}
+            onEndReachedThreshold={1}
             onEndReached={loadData}
             keyExtractor={item => item.key}
             snapToAlignment="center"

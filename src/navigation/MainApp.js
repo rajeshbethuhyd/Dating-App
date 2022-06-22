@@ -19,6 +19,7 @@ import HobbiesScreen from '../screens/setupscreens/HobbiesScreen';
 import HeaderSkipBtn from '../components/HeaderSkipBtn';
 import TestScreen from '../screens/TestScreen';
 import LocationTest from '../screens/LocationTest';
+import HomeScreenStack from './HomeScreenStack';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -96,6 +97,7 @@ export default function MainApp() {
         <Tab.Navigator
           activeColor={Colors.primary}
           barStyle={{backgroundColor: Colors.white}}
+          // initialRouteName="HomeScreenStack"
           labeled={false}>
           <Tab.Screen
             name="LocationTest"
@@ -107,8 +109,8 @@ export default function MainApp() {
             }}
           />
           <Tab.Screen
-            name="HomeScreen"
-            component={HomeScreen}
+            name="HomeScreenStack"
+            component={HomeScreenStack}
             options={{
               tabBarIcon: ({color}) => (
                 <Icons name="home" color={color} size={26} />

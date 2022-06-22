@@ -130,7 +130,7 @@ export default function LocationTest() {
 
   const loadData = () => {
     const res = JSON.slice(offset * 5, (offset + 1) * 5);
-    GetUserInfo(res);
+    // GetUserInfo(res);
     const merged = [...list, ...res];
     setList(merged);
     setOffset(offset + 1);

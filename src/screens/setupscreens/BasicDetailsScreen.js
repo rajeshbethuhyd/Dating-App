@@ -320,11 +320,11 @@ export default function BasicDetailsScreen({navigation}) {
                 color: Colors.placeholder,
               }}
               items={[
-                {label: 'Single', value: 'single'},
-                {label: 'Married', value: 'married'},
-                {label: 'Divorced', value: 'divorced'},
-                {label: 'Widowed', value: 'widowed'},
-                {label: 'Dating', value: 'dating'},
+                {label: 'Single', value: 'Single'},
+                {label: 'Married', value: 'Married'},
+                {label: 'Divorced', value: 'Divorced'},
+                {label: 'Widowed', value: 'Widowed'},
+                {label: 'Dating', value: 'Dating'},
               ]}
             />
           </View>
@@ -338,9 +338,9 @@ export default function BasicDetailsScreen({navigation}) {
                 color: Colors.placeholder,
               }}
               items={[
-                {label: 'Relationship', value: 'relationship'},
-                {label: 'Friendship', value: 'friendship'},
-                {label: 'Something Casual', value: 'casual'},
+                {label: 'Relationship', value: 'Relationship'},
+                {label: 'Friendship', value: 'Friendship'},
+                {label: 'Something Casual', value: 'Something Casual'},
               ]}
             />
           </View>
@@ -354,9 +354,9 @@ export default function BasicDetailsScreen({navigation}) {
                 color: Colors.placeholder,
               }}
               items={[
-                {label: 'Male', value: 'male'},
-                {label: 'Female', value: 'female'},
-                {label: 'Other', value: 'other'},
+                {label: 'Male', value: 'Male'},
+                {label: 'Female', value: 'Female'},
+                // {label: 'Other', value: 'other'},
               ]}
             />
           </View>
