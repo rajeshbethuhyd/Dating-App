@@ -1,21 +1,35 @@
-import {View, Text} from 'react-native';
-import React from 'react';
-import database from '@react-native-firebase/database';
-export default function TestScreen() {
-  React.useEffect(() => {
-    // check('JfF12SYBWFU54nBcRf5N1mHiJQD3');
-  }, []);
+import {View, Text, Button} from 'react-native';
+import React, {useState} from 'react';
 
-  const check = async uid => {
-    const res = await database()
-      .ref('/Interests/Bicycling')
-      .orderByValue('')
-      .equalTo(uid)
-      .once('value');
+import onDisplayNotification from '../HelperFunctions/DisplayNotification';
+import {Modal} from 'react-native-paper';
+
+export default function TestScreen() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const containerStyle = {
+    backgroundColor: 'green',
+    padding: 20,
+    height: '80%',
+    zIndex: 2000,
   };
+  const hideModal = () => {
+    setModalVisible(false);
+  };
+  const showModal = () => {
+    setModalVisible(true);
+  };
+
   return (
-    <View>
-      <Text>TestScreen</Text>
-    </View>
+    <>
+      <Modal
+        visible={modalVisible}
+        onDismiss={hideModal}
+        contentContainerStyle={containerStyle}>
+        <Text>Example Modal.</Text>
+      </Modal>
+      <View>
+        <Button title="Display Notification" onPress={showModal} />
+      </View>
+    </>
   );
 }

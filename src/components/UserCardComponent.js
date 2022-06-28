@@ -9,7 +9,7 @@ import {
   View,
   StatusBar,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors} from '../Colors';
 import {Subheading} from 'react-native-paper';
@@ -18,100 +18,102 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ActionButton from './ActionButton';
 import {AuthContext} from '../navigation/AuthProvider';
 import {SendLike, UnSendLike} from '../HelperFunctions/SendLike';
+import {LikesContext} from '../navigation/HomeScreenStack';
 
-export default function UserCardComponent({
-  userInfo,
-  navigation,
-  loadingSentLikes,
-}) {
-  // console.log('loadingSentLikes');
-  // console.log(loadingSentLikes);
-  const [liked, setLiked] = useState();
+export default function UserCardComponent({userInfo, navigation}) {
   const {user} = useContext(AuthContext);
+  const {sentLikes} = useContext(LikesContext);
+  const [liked, setLiked] = useState();
+  useEffect(() => {
+    if (sentLikes[userInfo.key] === true) {
+      setLiked(true);
+    } else {
+      setLiked(false);
+    }
+  }, [sentLikes]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.CardSection}>
-        <View style={styles.TopSection}>
-          <Image
-            source={{
-              uri: userInfo.profilePicUrl,
-            }}
-            resizeMode="cover"
-            style={styles.userCardImg}
-          />
-          <View style={styles.chatIconContainer}>
-            <Pressable style={styles.chatIcon}>
-              <MaterialIcons name="chat" color={Colors.white} size={33} />
-            </Pressable>
-          </View>
-          <View style={styles.userCardInfo}>
-            <View style={styles.userCardInfofirstrow}>
-              <Subheading style={[styles.userCardName, styles.userInfoText]}>
-                {userInfo.userDisplayName}
-              </Subheading>
-              <Subheading
-                style={[
-                  styles.userCardName,
-                  styles.userCardAgeGen,
-                  styles.userInfoText,
-                ]}>
-                {userInfo.gender === 'male' ? 'M' : 'F'}, {userInfo.age}
-              </Subheading>
+    <>
+      <View style={styles.container}>
+        <View style={styles.CardSection}>
+          <View style={styles.TopSection}>
+            <Image
+              source={{
+                uri: userInfo.profilePicUrl,
+              }}
+              resizeMode="cover"
+              style={styles.userCardImg}
+            />
+            <View style={styles.chatIconContainer}>
+              <Pressable style={styles.chatIcon}>
+                <MaterialIcons name="chat" color={Colors.white} size={33} />
+              </Pressable>
             </View>
-            <View style={styles.userCardInfosecondrow}>
-              <Subheading style={styles.userInfoText}>
-                Looking For {userInfo.hereFor}
-              </Subheading>
-              <Subheading style={styles.userInfoText}>
-                {userInfo.distance} kms away
-              </Subheading>
-            </View>
-          </View>
-        </View>
-        <View style={styles.BottomSection}>
-          <View style={styles.actionButtonsSection}>
-            <View style={styles.actionButtonsContainer}>
-              <View style={styles.viewButtonContainer}>
-                <Pressable
-                  style={styles.viewButton}
-                  android_ripple={{color: Colors.primary, borderless: false}}
-                  onPress={() =>
-                    navigation.navigate('ViewProfileScreen', {
-                      userInfo: userInfo,
-                    })
-                  }>
-                  <Text style={styles.viewButtonText}>VIEW PROFILE</Text>
-                </Pressable>
+            <View style={styles.userCardInfo}>
+              <View style={styles.userCardInfofirstrow}>
+                <Subheading style={[styles.userCardName, styles.userInfoText]}>
+                  {userInfo.userDisplayName}
+                </Subheading>
+                <Subheading
+                  style={[
+                    styles.userCardName,
+                    styles.userCardAgeGen,
+                    styles.userInfoText,
+                  ]}>
+                  {userInfo.gender === 'male' ? 'M' : 'F'}, {userInfo.age}
+                </Subheading>
               </View>
-              <View style={styles.likeBtnStyles}>
-                <Pressable
-                  onPress={() => {
-                    // console.log(
-                    //   'You ( ' + user.uid + ' ) Liked ' + userInfo.key,
-                    // );
-                    if (liked) {
-                      setLiked(false);
-                      UnSendLike(user.uid, userInfo.key);
-                    } else {
-                      setLiked(true);
-                      SendLike(user.uid, userInfo.key);
-                    }
-                  }}
-                  android_ripple={{color: Colors.primary, borderless: true}}>
-                  <Icon
-                    style={{paddingHorizontal: 13}}
-                    name={liked ? 'heart' : 'heart-outline'}
-                    color={Colors.primary}
-                    size={30}
-                  />
-                </Pressable>
+              <View style={styles.userCardInfosecondrow}>
+                <Subheading style={styles.userInfoText}>
+                  Looking For {userInfo.hereFor}
+                </Subheading>
+                <Subheading style={styles.userInfoText}>
+                  {userInfo.distance} kms away
+                </Subheading>
+              </View>
+            </View>
+          </View>
+          <View style={styles.BottomSection}>
+            <View style={styles.actionButtonsSection}>
+              <View style={styles.actionButtonsContainer}>
+                <View style={styles.viewButtonContainer}>
+                  <Pressable
+                    style={styles.viewButton}
+                    android_ripple={{color: Colors.primary, borderless: false}}
+                    onPress={() =>
+                      navigation.navigate('ViewProfileScreen', {
+                        userInfo: userInfo,
+                      })
+                    }>
+                    <Text style={styles.viewButtonText}>VIEW PROFILE</Text>
+                  </Pressable>
+                </View>
+                <View style={styles.likeBtnStyles}>
+                  <Pressable
+                    onPress={() => {
+                      if (liked) {
+                        setLiked(false);
+                        UnSendLike(user.uid, userInfo.key);
+                      } else {
+                        setLiked(true);
+                        SendLike(user.uid, userInfo.key);
+                      }
+                    }}
+                    android_ripple={{color: Colors.primary, borderless: true}}>
+                    <Icon
+                      style={{paddingHorizontal: 13}}
+                      name={liked ? 'heart' : 'heart-outline'}
+                      color={Colors.primary}
+                      size={30}
+                    />
+                  </Pressable>
+                </View>
               </View>
             </View>
           </View>
         </View>
       </View>
-    </View>
+    </>
   );
 }
 
@@ -123,6 +125,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     padding: 10,
+    zIndex: 1,
   },
   CardSection: {
     width: '100%',

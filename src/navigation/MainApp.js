@@ -20,6 +20,8 @@ import HeaderSkipBtn from '../components/HeaderSkipBtn';
 import TestScreen from '../screens/TestScreen';
 import LocationTest from '../screens/LocationTest';
 import HomeScreenStack from './HomeScreenStack';
+import messaging from '@react-native-firebase/messaging';
+import UpdateToken from '../HelperFunctions/UpdateToken';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -84,6 +86,8 @@ export default function MainApp() {
       </View>
     );
   } else if (isSetupFinished === true) {
+    UpdateToken(user.uid);
+
     return (
       <UserInfoContext.Provider
         value={{
@@ -97,11 +101,11 @@ export default function MainApp() {
         <Tab.Navigator
           activeColor={Colors.primary}
           barStyle={{backgroundColor: Colors.white}}
-          // initialRouteName="HomeScreenStack"
+          initialRouteName="HomeScreenStack"
           labeled={false}>
           <Tab.Screen
-            name="LocationTest"
-            component={LocationTest}
+            name="TestScreen"
+            component={TestScreen}
             options={{
               tabBarIcon: ({color}) => (
                 <Icons name="cog" color={color} size={26} />

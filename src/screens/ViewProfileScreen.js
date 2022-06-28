@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Pressable,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Title, Subheading} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FornAwesomeIcon from 'react-native-vector-icons/FontAwesome';
@@ -14,9 +14,15 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MyDivider from '../components/MyDivider';
 import {Appbar} from 'react-native-paper';
 import {Colors} from '../Colors';
+import {LikesContext} from '../navigation/HomeScreenStack';
+import {SendLike, UnSendLike} from '../HelperFunctions/SendLike';
+import {AuthContext} from '../navigation/AuthProvider';
+
 export default function ViewProfileScreen({navigation, route}) {
+  const {user} = useContext(AuthContext);
   const [likeSent, setLikeSent] = useState(null);
   const {userInfo} = route.params;
+  const {sentLikes} = useContext(LikesContext);
   const heightRes = userInfo.height.split('.');
   var height = '';
   if (heightRes.length > 1) {
@@ -24,6 +30,16 @@ export default function ViewProfileScreen({navigation, route}) {
   } else {
     height = heightRes[0] + "' " + 0 + '"';
   }
+
+  const [liked, setLiked] = useState();
+  useEffect(() => {
+    if (sentLikes[userInfo.key] === true) {
+      setLiked(true);
+    } else {
+      setLiked(false);
+    }
+  }, []);
+
   return (
     <>
       <Appbar.Header style={{backgroundColor: Colors.white}}>
@@ -37,11 +53,19 @@ export default function ViewProfileScreen({navigation, route}) {
       </Appbar.Header>
       <View style={styles.likeBtn}>
         <Pressable
-          onPress={() => {}}
+          onPress={() => {
+            if (liked) {
+              setLiked(false);
+              UnSendLike(user.uid, userInfo.key);
+            } else {
+              setLiked(true);
+              SendLike(user.uid, userInfo.key);
+            }
+          }}
           android_ripple={{color: Colors.primary, borderless: true}}>
           <Icon
             style={{paddingHorizontal: 13}}
-            name={likeSent ? 'heart' : 'heart-outline'}
+            name={liked ? 'heart' : 'heart-outline'}
             color={Colors.primary}
             size={30}
           />

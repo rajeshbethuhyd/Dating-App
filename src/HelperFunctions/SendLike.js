@@ -7,7 +7,7 @@ export function SendLike(fromUser, toUser) {
   database()
     .ref('/SentLikes/' + fromUser)
     .update({
-      [toUser]: '',
+      [toUser]: true,
     })
     .then()
     .catch(e => {
@@ -16,7 +16,7 @@ export function SendLike(fromUser, toUser) {
   database()
     .ref('/ReceivedLikes/' + toUser)
     .update({
-      [fromUser]: '',
+      [fromUser]: true,
     })
     .then()
     .catch(e => {

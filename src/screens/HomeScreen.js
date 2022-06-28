@@ -7,13 +7,14 @@ import {
   Text,
 } from 'react-native';
 import {AuthContext} from '../navigation/AuthProvider';
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, createContext, useContext} from 'react';
 import UserCardComponent from '../components/UserCardComponent';
 import {Appbar} from 'react-native-paper';
 import database from '@react-native-firebase/database';
 import {Colors} from '../Colors';
 import {GeoFire} from 'geofire';
 import GetUserInfo from '../HelperFunctions/GetUserInfo';
+import onDisplayNotification from '../HelperFunctions/DisplayNotification';
 
 export default function HomeScreen({navigation}) {
   const {user} = useContext(AuthContext);
@@ -29,19 +30,20 @@ export default function HomeScreen({navigation}) {
     getUsersList();
   }, []);
 
-  useEffect(() => {
-    const onValueChange = database()
-      .ref(`/SentLikes/${user.uid}`)
-      .on('value', snapshot => {
-        console.log('User data: ', snapshot.val());
-        setSentLikes(snapshot.val());
-        setLoadingSentLikes(false);
-      });
+  // useEffect(() => {
+  //   const onValueChange = database()
+  //     .ref(`/SentLikes/${user.uid}`)
+  //     .on('value', snapshot => {
+  //       // console.log('User data: ', snapshot.val());
+  //       setSentLikes(snapshot.val());
+  //       setLoadingSentLikes(false);
+  //       // onDisplayNotification();
+  //     });
 
-    // Stop listening for updates when no longer required
-    return () =>
-      database().ref(`/SentLikes/${user.uid}`).off('value', onValueChange);
-  }, []);
+  //   // Stop listening for updates when no longer required
+  //   return () =>
+  //     database().ref(`/SentLikes/${user.uid}`).off('value', onValueChange);
+  // }, []);
 
   useEffect(() => {
     if (offset == 0) {
@@ -97,11 +99,7 @@ export default function HomeScreen({navigation}) {
           <FlatList
             data={finalUserList}
             renderItem={({item}) => (
-              <UserCardComponent
-                loadingSentLikes={loadingSentLikes}
-                userInfo={item}
-                navigation={navigation}
-              />
+              <UserCardComponent userInfo={item} navigation={navigation} />
             )}
             onEndReachedThreshold={1}
             onEndReached={loadData}
